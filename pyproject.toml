@@ -18,16 +18,16 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
 ]
-requires-python = ">=3.11"
+requires-python = ">=3.11, <=3.13.7"
 # Declare any run-time dependencies that should be installed with the package.
 dependencies = [
     "importlib_resources",
-    "scipy == 1.12",
+    "scipy",
     "MDAnalysis",
     "jupyterlab", #not super necessary, but helpful to follow along with examples
     "PyYAML", #aqme dependency
     #"aqme", #bc lots of dependencies
-    "rdkit-pypi", # dependency of aqme but doesn't get installed with pip install aqme
+    "rdkit", # dependency of aqme but doesn't get installed with pip install aqme
     "openbabel-wheel" #this works! And you don't have to add conda install -c conda-forge openbabel to config.yml, which makes testing faster (by like 30%)
     #"openbabel" #doesn't work to install this way... need to do conda install -c conda-forge openbabel in config.yml
 ]
