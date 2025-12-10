@@ -20,7 +20,7 @@ Full documentation with installation instructions, technical details and example
 For suggestions and improvements of the code (greatly appreciated!), please reach out through the issues and pull requests options of Github. See documentation about [contributing guidelines](https://qmzyme.readthedocs.io/en/latest/Contributing/index.html).
 
 ## Current Contributors
-* Heidi Klem, NIST (main developer)
+* Heidi Klem, LSU (main developer)
 * Demian Riccardi, NIST
 
 ## References
