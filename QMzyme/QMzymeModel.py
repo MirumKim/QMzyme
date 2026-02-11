@@ -15,7 +15,7 @@ class QMzymeModel:
     modify a ``QMzymeModel`` instance. A QMzymeModel an be instantiated with an 
     MDAnalysis Universe directly, or any combination of parameters that 
     MDAnalysis.core.universe.Universe accepts to create a Universe i.e., 
-    (example.prmtop, example.dcd, dt=5).
+    (example.prmtop, example.dcd, dt=5). 
     See https://userguide.mdanalysis.org/stable/universe.html for details.
 
     :param name: Name to give to the QMzymeModel. This is used for default file naming 
