@@ -32,6 +32,8 @@ class QMzymeRegion:
         self._universe = universe
         if not hasattr(self, "method"):
             self.method = None
+        self._selection_params = {}
+        self._creation_params = {}
 
     def __repr__(self):
         return f"<QMzymeRegion {self.name} contains {self.n_atoms} atom(s) and {self.n_residues} residue(s)>"
@@ -158,6 +160,34 @@ class QMzymeRegion:
             return [atom.segid for atom in self.atoms]
         else:
             return
+    
+    @property
+    def creation_params(self):
+        """
+        Filters _selection_params into _creation_params.
+        Ultimately, it creates a property to the region of how the region was created.
+        :rtype: List[:class:`~QMzyme.QMzymeRegion.creation_params`]
+        """
+        # Clear previous state to avoid doubling up
+        self._creation_params = {}
+
+        # Creates selection_scheme first
+        if 'selection_scheme' in self._selection_params:
+            v = self._selection_params['selection_scheme']
+            self._creation_params['selection_scheme'] = v.__name__ if hasattr(v, '__name__') else str(v)
+
+        # Loop through everything else
+        for k, v in self._selection_params.items():
+
+            # Skip method since it is saved elsewhere
+            if k == 'method' or k == 'selection_scheme':
+                continue
+            
+            # Append the list of other values within the attribute of set_region
+            else:
+                self._creation_params[k] = v
+        
+        return self._creation_params
     
     def get_atom(self, id):
         for i in self.atoms:
