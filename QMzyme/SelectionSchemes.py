@@ -8,9 +8,11 @@ Module containing functions to define a QMzymeRegion based on some logic/workflo
 """
 
 import QMzyme.MDAnalysisWrapper as MDAwrapper
+import QMzyme
 from QMzyme.RegionBuilder import RegionBuilder
 from QMzyme.QMzymeRegion import QMzymeRegion
 from QMzyme.QMzymeModel import QMzymeModel
+from QMzyme.CalculateModel import QM_Method
 from typing import Type
 import cclib
 import pickle
