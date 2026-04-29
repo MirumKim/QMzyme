@@ -12,6 +12,7 @@ import QMzyme
 from QMzyme.RegionBuilder import RegionBuilder
 from QMzyme.QMzymeRegion import QMzymeRegion
 from QMzyme.QMzymeModel import QMzymeModel
+from QMzyme.TruncationSchemes import BetaCarbon
 from QMzyme.CalculateModel import QM_Method
 from typing import Type
 import cclib
