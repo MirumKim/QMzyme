@@ -197,6 +197,31 @@ class QMzymeModel:
         with open (filename, 'w+') as f:
             f.write(lines)
 
+    def print_summary(self):
+        """
+        Prints a formatted summary of the model and its regions, including 
+        atom/residue counts and creation parameters.
+        """
+        print(f"---- Model Summary: {self.name} ----")
+        print(f"Total Regions Found: {len(self.regions)}")
+        print("-" * 29) 
+        
+        for region in self.regions:
+            print(f"Region Name: {region.name}")
+            
+            # Use built-in QMzymeRegion attributes
+            print(f"  - Atoms: {region.n_atoms}")
+            print(f"  - Residues: {region.n_residues}")
+            
+            # Retrieve the property optimized in QMzymeRegion.py
+            params = region.creation_params
+            for key, value in params.items():
+                # Avoid duplicate printing of counts
+                if key not in ['total_atoms', 'total_residues']:
+                    print(f"  - {key}: {value}")
+            
+            print("-" * 29)
+
     def store_pickle(self, filename=None):
         """
         The pickle file will by default be named after the QMzymeModel.name 
