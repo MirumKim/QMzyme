@@ -124,6 +124,8 @@ def test_CSACutoff():
         model.set_region(selection=CSACutoff, name=None, method=None, holo_output_files=None, apo_output_files=None, pop="hirshfeld", charge_threshold=0.05)
 
     # Parameters for normal selection
+    model = GenerateModel(PDB)
+    model.set_catalytic_center('resid 263')
     model.set_region(selection=CSACutoff, name=None, min_atoms=950, max_atoms=1050, memory=None, nprocs=None, method=qm_method)
     assert len(model.regions) == 4
     assert model.catalytic_center.n_residues == 1
