@@ -1,6 +1,6 @@
 from importlib import resources
 import copy
-from QMzyme.configuration import protein_residues, residue_charges, backbone_atoms
+from QMzyme.configuration import protein_residues, residue_charges, backbone_atoms, element_name_to_atomic_number
 
 _data_ref = resources.files('QMzyme.data')
 
