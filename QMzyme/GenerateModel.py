@@ -129,6 +129,11 @@ class GenerateModel(QMzymeModel):
 
         """
         region = make_selection(selection, model=self, name=name, **kwargs)
+
+        # A short module that allows for storing the selection parameters used to make region selection
+        region._selection_params.update(kwargs)
+        region._selection_params['selection_scheme'] = selection
+        
         self.add_region(region)
     
 
