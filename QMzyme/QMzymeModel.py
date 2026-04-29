@@ -132,7 +132,7 @@ class QMzymeModel:
         starting_structure = self.name
         self.universe.atoms.write(f"{self.name}_universe.pdb")
         file = os.path.abspath(f'{self.name}_universe.pdb')
-        lines += f"cmd.load('{file}', '{self.name}')\n"
+        lines += f"cmd.load(r'{file}', '{self.name}')\n"
         #lines += f"cmd.color('gray70', self.name)\n"
         lines += f"cmd.set('surface_color', 'gray')\n"
         lines += f"cmd.set('transparency', 0.75)\n"
@@ -144,7 +144,7 @@ class QMzymeModel:
         for region in self.regions:
             region.write(f'{region.name}.pdb')
             file = os.path.abspath(f'{region.name}.pdb')
-            lines += f"cmd.load('{file}', '{region.name}')\n"
+            lines += f"cmd.load(r'{file}', '{region.name}')\n"
             lines += f"cmd.hide('cartoon', '{region.name}')\n"
             lines += f"cmd.show_as('sticks', '{region.name}')\n"
             lines += f"cmd.zoom('visible')\n"
@@ -156,7 +156,7 @@ class QMzymeModel:
             region = CalculateModel.calculation[CalculateModel.calc_type]
             region.write(f'{region.name}.pdb')
             file = os.path.abspath(f'{region.name}.pdb')
-            lines += f"cmd.load('{file}', '{region.name}')\n"
+            lines += f"cmd.load(r'{file}', '{region.name}')\n"
             lines += f"cmd.hide('cartoon', '{region.name}')\n"
             lines += f"cmd.color('gray85', '{region.name} and elem c')\n"
             lines += f"cmd.color('oxygen','{region.name} and elem o')\n"
