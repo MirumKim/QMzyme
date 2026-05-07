@@ -614,9 +614,6 @@ class CSACutoff(SelectionScheme):
         CSA_region = RegionBuilder(name="CSA_cutoff_region", atom_group=CSA_atom_group).get_region()
         region = CSA_region.combine(self.model.catalytic_center)
 
-        for residues in region.residues:
-            print(f"Residue {residues.resid} ({residues.resname}) is selected based on CSA cutoff. it contains {len(residues.atoms)} atoms.")
-
         # Making a csv file of atom, resid, and delta charge data
         holo_atom_data = []
         for i, atom in enumerate(CSA_holo.atoms):
@@ -679,13 +676,11 @@ class CSACutoff(SelectionScheme):
         df_delta = pd.DataFrame(delta_data)
         df_delta.to_csv(f"delta_charges_{self.pop}.csv", index=False)
 
-        # Resetting the region in order to allow assign_to_region
-        self.model.regions = []
-
-        # Adding the final selected region to the model
-        self.model.add_region(region)
-
         # Setting the method to the model
+
+        self.model.CSA_holo_truncated.method = None
+        self.model.CSA_apo_truncated.method = None
+
         self.method.assign_to_region(region)
         self.region = region
         
