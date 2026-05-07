@@ -200,7 +200,7 @@ class QMzymeModel:
     def print_summary(self):
         """
         Prints a formatted summary of the model and its regions, including 
-        atom/residue counts and creation parameters.
+        atom/residue counts, designated methods, and creation parameters.
         """
         print(f"---- Model Summary: {self.name} ----")
         print(f"Total Regions Found: {len(self.regions)}")
@@ -210,8 +210,12 @@ class QMzymeModel:
             print(f"Region Name: {region.name}")
             
             # Use built-in QMzymeRegion attributes
-            print(f"  - Atoms: {region.n_atoms}")
-            print(f"  - Residues: {region.n_residues}")
+            print(f"  - atoms: {region.n_atoms}")
+            print(f"  - residues: {region.n_residues}")
+            
+            # Safely retrieve the method, defaulting to None if it doesn't exist
+            method = getattr(region, 'method', None)
+            print(f"  - method: {method}")
             
             # Retrieve the property optimized in QMzymeRegion.py
             params = region.creation_params
