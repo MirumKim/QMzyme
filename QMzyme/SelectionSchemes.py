@@ -313,20 +313,20 @@ class CSACutoff(SelectionScheme):
 
     .. note::
 
-        Users are encouraged to evaluate the resulting region. There may be situations where
-        a charged residue is within the initial distance within specific atom number range;
-        however, its charge partner is not. Such situations can drastically alter the chemistry
-        of the model! Additionally, the min and max number of atoms set within the class applies
-        to number of atoms before truncation. Actual atom numbers might not fall within the range.
-        It is recommended to check the structure of the initial input file to make sure that the
-        structure is good!
+        Users are encouraged to evaluate the resulting region. There may be situations where a
+        charged residue is included because it falls within the distance and atom number range,
+        but its charge partner is excluded. Such imbalances can drastically alter the chemistry
+        of your model! Additionally, please note that the minimum and maximum atom limits set
+        within the class apply to the number of atoms before truncation; therefore, the final
+        atom count might not fall within that initial range. It is highly recommended to verify
+        the structure of your initial input file to ensure it is of high quality.
 
-        In addition, it is crucial to set method as QM_Method. For initial population analysis and
-        setting QMzyme region using charge shift analysis, the method has to be set as QM_Method.
-        Any other method will return an error message.
+        In addition, it is crucial to set the method as QM_Method. This setting is strictly required
+        for performing the initial population analysis and defining the QMzyme region using charge
+        shift analysis. Any other method selection will return an error message.
 
-        For the second part of CSACutoff class, it is required to have the .pkl file made from the
-        first run of CSACutoff. Without it, CSACutoff class cannot do charge shift analysis.
+        For the second part of the CSACutoff class, you must have the .pkl file generated from the
+        first run. Without this file, the CSACutoff class cannot perform the charge shift analysis.
         
     """
 
