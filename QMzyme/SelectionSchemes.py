@@ -314,7 +314,7 @@ class CSACutoff(SelectionScheme):
     .. note::
 
         Users are encouraged to evaluate the resulting region. There may be situations where
-        a charged residue is within the initial distance within specific atom number range,
+        a charged residue is within the initial distance within specific atom number range;
         however, its charge partner is not. Such situations can drastically alter the chemistry
         of the model! Additionally, the min and max number of atoms set within the class applies
         to number of atoms before truncation. Actual atom numbers might not fall within the range.
