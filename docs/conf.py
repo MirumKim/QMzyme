@@ -47,7 +47,6 @@ smartquotes = False
 html_theme = 'sphinx_rtd_theme'
 html_theme_options = {
     'logo_only': True,
-    'display_version': True,
 }
 html_static_path = ['_static']
 html_logo = "_static/QMzyme_logo.png"
@@ -77,6 +76,7 @@ def setup(app):
 # Set the syntax highlighting style to the Pygments default (matches standard Jupyter)
 pygments_style = 'default'
 nbsphinx_codecell_lexer = 'python3'
+highlight_language = 'python3'
 
 copybutton_prompt_text = r">>> |\.\.\. |\$ |In \[\d*\]: | {2,5}\.\.\.: | {5,8}: "
 copybutton_prompt_is_regexp = True
