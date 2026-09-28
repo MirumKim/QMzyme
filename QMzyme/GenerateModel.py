@@ -215,7 +215,7 @@ class GenerateModel(QMzymeModel):
         """
         # Combine regions
         if CalculateModel.calculation == {}:
-            raise UserWarning("You must first assign calculation method(s) to the model region(s).")
+            raise ValueError("You must first assign calculation method(s) to the model region(s).")
         if len(CalculateModel.calculation) > 1:
             CalculateModel.combine_regions_and_methods()
         calc_type = CalculateModel.calc_type
@@ -270,7 +270,7 @@ class GenerateModel(QMzymeModel):
             to a region. 
         """
         if CalculateModel.calculation == {}:
-            raise UserWarning("You must first assign calculation method(s) to the model region(s).")
+            raise ValueError("You must first assign calculation method(s) to the model region(s).")
         
         if len(CalculateModel.calculation) > 1 and not CalculateModel.combined:
             CalculateModel.combine_regions_and_methods()
@@ -290,7 +290,7 @@ class GenerateModel(QMzymeModel):
             else:
                 protein_resid = [res for res in region.residues if res.resname in protein_residues]
                 not_truncated = not_truncated = [res for res in protein_resid if getattr(res, 'truncation_params', None) is None]
-                raise UserWarning("\nWARNING: model is only partially truncated. Resulting model may "+
+                raise ValueError("\nWARNING: model is only partially truncated. Resulting model may "+
                     "not be a chemically complete structure (i.e., incomplete atomic "+
                     "valencies due to removed atoms).\n"
                     f"Please truncate {not_truncated} using GenerateModel.truncate() or QMzymeRegion.truncate().")
