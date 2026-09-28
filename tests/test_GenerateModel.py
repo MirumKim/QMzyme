@@ -73,7 +73,7 @@ def test_set_region(Test, init_file, region_name, selection):
         model.set_region(name=region_name, selection=qmz_region)
 
         # check that warning is raised if you try to add a region with the same name of a region that already exists
-        with pytest.raises(UserWarning):
+        with pytest.raises(ValueError):
             model.set_region(name=region_name, selection=qmz_region)
 
     assert len(model.regions) == 1
