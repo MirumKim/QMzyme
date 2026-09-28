@@ -199,10 +199,10 @@ class DistanceCutoff(SelectionScheme):
         :returns: :class:`~QMzyme.QMzymeRegion.QMzymeRegion`
         :rtype: :class:`~QMzyme.QMzymeRegion.QMzymeRegion`
 
-        :raises UserWarning: If the model has no defined 'catalytic_center' region.
+        :raises ValueError: If the model has no defined 'catalytic_center' region.
         """
         if not self.model.has_region('catalytic_center'):
-            raise UserWarning("You must first define a catalytic_center. See method `set_catalytic_center()`.")
+            raise ValueError("You must first define a catalytic_center. See method `set_catalytic_center()`.")
         
         neighbors = MDAwrapper.get_neighbors(
         self.model.universe.select_atoms('all'),
@@ -385,14 +385,14 @@ class ChargeShiftAnalysis(SelectionScheme):
 
         # Raise user warning if catalytic_center is missing.
         if catalytic_center is None:
-            raise UserWarning("You must first define a catalytic_center. See method `set_catalytic_center()`.")
+            raise ValueError("You must first define a catalytic_center. See method `set_catalytic_center()`.")
         
         # Raises user warning if catalytic center does not contain non-protein and non-water atoms for apo form.
         if self.cat_center_atoms is None or len(self.cat_center_atoms) == 0:
-            raise UserWarning("The catalytic center must contain non-protein and non-water atoms.")
+            raise ValueError("The catalytic center must contain non-protein and non-water atoms.")
         
         if method is None or not isinstance(method, QMzyme.QM_Method):
-            raise UserWarning("You must set method as QM_Method for partial charge calculation.")
+            raise ValueError("You must set method as QM_Method for partial charge calculation.")
 
         # ChargeShiftAnalysis second iteration (requires output files and charge threshold)
         if holo_output_files is not None and apo_output_files is not None:
@@ -403,7 +403,7 @@ class ChargeShiftAnalysis(SelectionScheme):
                 QMzyme.CalculateModel._reset()
                 self.method.assign_to_region(self.region)
             else:
-                raise UserWarning("You must set charge_threshold as float for partial charge calculation.")
+                raise ValueError("You must set charge_threshold as float for partial charge calculation.")
 
         # ChargeShiftAnalysis first iteration
         else:
@@ -471,7 +471,7 @@ class ChargeShiftAnalysis(SelectionScheme):
                 # Safety counter to avoid infinite loops
                 counter += 1
                 if counter > 20:
-                    raise UserWarning("Exceeded maximum number of iterations to find suitable cutoff.")
+                    raise ValueError("Exceeded maximum number of iterations to find suitable cutoff.")
 
                 # Setting neighbors using MDAwrapper
                 neighbors = MDAwrapper.get_neighbors(
@@ -595,7 +595,7 @@ class ChargeShiftAnalysis(SelectionScheme):
             CSA_apo = next(r for r in self.model.regions if r.name == "CSA_apo_truncated")
             print(f"Successfully retrieved {', '.join(required_regions)} from the QMzymeModel.")
         else:
-            raise UserWarning(
+            raise ValueError(
                 f"Required regions {missing_regions} not found in the QMzymeModel."
                 "Please run the Charge Shift Analysis (CSA) preprocessing to generate these regions.")
 
@@ -609,11 +609,11 @@ class ChargeShiftAnalysis(SelectionScheme):
         # Raising error if length or atomic number does not match between .pkl and output file
         for atoms, atomnos in ((CSA_holo.atoms, holo_output.atomnos),(CSA_apo.atoms,  apo_output.atomnos),):
             if len(atoms) != len(atomnos):
-                raise UserWarning(".pkl region and output files do not match. Check your files.")
+                raise ValueError(".pkl region and output files do not match. Check your files.")
 
             for a, n in zip(atoms, atomnos):
                 if a.atomic_number != n:
-                    raise UserWarning(".pkl region and output files do not match. Check your files.")
+                    raise ValueError(".pkl region and output files do not match. Check your files.")
 
         # Extract hirshfeld charges for each atom
         holo_atom_charges = holo_output.atomcharges[self.pop]
