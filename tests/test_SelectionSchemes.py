@@ -28,9 +28,9 @@ def restore_directory():
 def test_DistanceCutoff():
     from QMzyme.SelectionSchemes import DistanceCutoff
     model = GenerateModel(PDB)
-    with pytest.raises(UserWarning):
+    with pytest.raises(ValueError):
         DistanceCutoff(model=model, name=None, cutoff=3, include_whole_residues=True)
-    with pytest.raises(UserWarning):
+    with pytest.raises(ValueError):
         model.set_region(selection=DistanceCutoff, name=None, cutoff=3, include_whole_residues=True)
     model.set_catalytic_center('resid 263')
     model.set_region(selection=DistanceCutoff, name=None, cutoff=3, include_whole_residues=True)
@@ -48,13 +48,13 @@ def test_ChargeShiftAnalysis():
     model = GenerateModel(PDB)
 
     # Initial check to see the errors derived from lack of initial inputs
-    with pytest.raises(UserWarning):
+    with pytest.raises(ValueError):
         ChargeShiftAnalysis(model=model, name=None, min_atoms=None, max_atoms=None, memory=None, nprocs=None, method=None)
-    with pytest.raises(UserWarning):
+    with pytest.raises(ValueError):
         ChargeShiftAnalysis(model=model, name=None, method=None, holo_output_files=None, apo_output_files=None, pop="hirshfeld", charge_threshold=0.05)
-    with pytest.raises(UserWarning):
+    with pytest.raises(ValueError):
         model.set_region(selection=ChargeShiftAnalysis, name=None, min_atoms=None, max_atoms=None, memory=None, nprocs=None, method=None)
-    with pytest.raises(UserWarning):
+    with pytest.raises(ValueError):
         model.set_region(selection=ChargeShiftAnalysis, name=None, method=None, holo_output_files=None, apo_output_files=None, pop="hirshfeld", charge_threshold=0.05)
 
     # Error from lack of catalytic center
@@ -64,15 +64,15 @@ def test_ChargeShiftAnalysis():
         qm_input='pop=hirshfeld',
         program='gaussian'
     ) 
-    with pytest.raises(UserWarning):
+    with pytest.raises(ValueError):
         model.set_region(selection=ChargeShiftAnalysis, name=None, min_atoms=950, max_atoms=1050, memory=None, nprocs=None, method=qm_method)
 
     # Error from lack of method
     model = GenerateModel(PDB)
     model.set_catalytic_center('resid 263')
-    with pytest.raises(UserWarning):
+    with pytest.raises(ValueError):
         model.set_region(selection=ChargeShiftAnalysis, name=None, min_atoms=None, max_atoms=None, memory=None, nprocs=None, method=None)
-    with pytest.raises(UserWarning):
+    with pytest.raises(ValueError):
         model.set_region(selection=ChargeShiftAnalysis, name=None, method=None, holo_output_files=CSA_holo, apo_output_files=CSA_apo, pop="hirshfeld", charge_threshold=0.05)
 
     qm_method = QMzyme.QM_Method(
@@ -82,7 +82,7 @@ def test_ChargeShiftAnalysis():
         program='gaussian'
     )    
     # Error from lack of method set, even with qm_method determined.
-    with pytest.raises(UserWarning):
+    with pytest.raises(ValueError):
         model.set_region(selection=ChargeShiftAnalysis, name=None, min_atoms=None, max_atoms=None, memory=None, nprocs=None, method=None)
 
     # Error from catalytic center containing protein residues
@@ -94,7 +94,7 @@ def test_ChargeShiftAnalysis():
         qm_input='pop=hirshfeld',
         program='gaussian'
     )  
-    with pytest.raises(UserWarning):
+    with pytest.raises(ValueError):
         model.set_region(selection=ChargeShiftAnalysis, name=None, min_atoms=950, max_atoms=1050, memory=None, nprocs=None, method=qm_method)
 
     # Smaller system setup
@@ -120,7 +120,7 @@ def test_ChargeShiftAnalysis():
     model.set_region(selection=ChargeShiftAnalysis, name=None, min_atoms=200, max_atoms=350, memory=None, nprocs=None, method=qm_method)
 
     # Error from using wrong step of ChargeShiftAnalysis
-    with pytest.raises(UserWarning):
+    with pytest.raises(ValueError):
         model.set_region(selection=ChargeShiftAnalysis, name=None, method=None, holo_output_files=None, apo_output_files=None, pop="hirshfeld", charge_threshold=0.05)
 
     # Parameters for normal selection
@@ -153,20 +153,20 @@ def test_ChargeShiftAnalysis():
     model = GenerateModel(PDB)
     model.set_catalytic_center('resid 263')
 
-    with pytest.raises(UserWarning):
+    with pytest.raises(ValueError):
         model.set_region(selection=ChargeShiftAnalysis, name=None, method=None, holo_output_files=None, apo_output_files=None, pop="cm5", charge_threshold=0.05)
 
-    with pytest.raises(UserWarning):
+    with pytest.raises(ValueError):
         model.set_region(selection=ChargeShiftAnalysis, name=None, method=qm_method, holo_output_files=CSA_holo, apo_output_files=CSA_apo, pop="cm5")
 
-    with pytest.raises(UserWarning):
+    with pytest.raises(ValueError):
         model.set_region(selection=ChargeShiftAnalysis, method=qm_method, holo_output_files=CSA_holo, apo_output_files=CSA_apo, pop="cm5", charge_threshold=0.05)
     
     # With pickle file, charge threshold not stated
     with open(CSA_pkl, 'rb') as f:
         model = pickle.load(f)
     
-    with pytest.raises(UserWarning):
+    with pytest.raises(ValueError):
         model.set_region(selection=ChargeShiftAnalysis, method=qm_method, holo_output_files=CSA_holo, apo_output_files=CSA_apo, pop="cm5")
 
     # Proper run of the second part
