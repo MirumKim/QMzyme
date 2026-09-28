@@ -610,7 +610,7 @@ class QMzymeRegion:
         if self.atoms != [] and self.atoms[-1].id in self.ids[:-1]:
             if override_same_id == False: 
                 #self.remove_atom(self.atoms[-1])
-                raise UserWarning(f"Atom {self.atoms[-1]} cannot be added to region because another atom with the same id already exists: {self.get_atom(self.atoms[-1].id)}.")
+                raise ValueError(f"Atom {self.atoms[-1]} cannot be added to region because another atom with the same id already exists: {self.get_atom(self.atoms[-1].id)}.")
             else:
                 atom = self.get_atom(self.atoms[-1].id)
                 self.remove_atom(atom)
@@ -782,14 +782,14 @@ class QMzymeRegion:
 
         :param attr: The name of the attribute.
         :type attr: str
-        :raises UserWarning: If one or more QMzymeAtoms lack the attribute or if the attribute is None.
+        :raises ValueError: If one or more QMzymeAtoms lack the attribute or if the attribute is None.
         """
         missing = []
         for atom in self.atoms:
             if not hasattr(atom, attr) or getattr(atom, attr) == None:
                 missing.append(atom)
         if missing != []:
-            raise UserWarning(f"The following atoms are missing {attr} information: {missing}")
+            raise ValueError(f"The following atoms are missing {attr} information: {missing}")
         
     def set_method(self, method):
         """
@@ -1135,7 +1135,7 @@ class QMzymeRegion:
         target = other.atom_group.select_atoms(other_selection)
         rmsd_before_alignment = rmsd(mobile.positions, target.positions)
         if len(mobile.atoms) != len(target.atoms):
-            raise UserWarning("The same number of atoms must be selected for alignment. Please adjust selections.")
+            raise ValueError("The same number of atoms must be selected for alignment. Please adjust selections.")
         t, r = compute_translation_and_rotation(mobile.positions, target.positions)
         aligned_positions = kabsch_transform(self.positions, t, r)
         mobile_aligned_positions = kabsch_transform(mobile.positions, t, r)
