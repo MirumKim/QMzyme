@@ -139,7 +139,7 @@ def test_QMXTB_calculation():
     model.cutoff_5.set_fixed_atoms(atoms=c_alpha_atoms)
 
     # check that warning is raised if a non-QM method is set before a QM method is set.
-    # with pytest.raises(UserWarning):
+    # with pytest.raises(ValueError):
     #     assert XTB_Method().assign_to_region(region=model.cutoff_5)
 
     qm_method = QM_Method(basis_set='6-31G*', 
@@ -196,7 +196,7 @@ def test2_QM_XTB_calculation():
     c_alpha_atoms = xtb_region.get_atoms(attribute='name', value='CA')
     xtb_region.set_fixed_atoms(atoms=c_alpha_atoms)
     xtb_method = XTB_Method().assign_to_region(region=xtb_region)
-    with pytest.raises(UserWarning):
+    with pytest.raises(ValueError):
         # you cannot add a region with the same name
         model.set_region(name='xtb_region', selection=xtb_region)
     model.remove_region('xtb_region') # replacing this region
