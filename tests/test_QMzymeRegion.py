@@ -53,7 +53,7 @@ def test_QMzymeRegion():
     assert 5 in region.ids
 
     region_builder.init_atom(mda_atom)
-    with pytest.raises(UserWarning): 
+    with pytest.raises(ValueError): 
         region = region_builder.get_region() # Because this atom already exists in region.
     # remove that problem atom from region_builder atoms to continue with testing
     region_builder.atoms = region_builder.atoms[:-1]
