@@ -251,7 +251,7 @@ class CalculationFactory:
     def _make_calculation(calculation_type):
         calculation = CalculationFactory.calc_methods.get(calculation_type)
         if not calculation:
-            raise UserWarning(f"Calculation method {calculation} not found.")
+            raise ValueError(f"Calculation method {calculation} not found.")
         return calculation
 
 possible_methods = {
