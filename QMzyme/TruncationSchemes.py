@@ -101,6 +101,7 @@ class TruncationScheme(abc.ABC):
         self.skip_resids.update(
             res.resid for res in self.region.residues if res.resid not in self.resid_to_truncate
         )
+        self.nonprotein_resid = []
  
         self._check_gly_ala()
         self._check_override_truncation()
@@ -113,10 +114,14 @@ class TruncationScheme(abc.ABC):
                     res.truncation_params = self.__class__.__name__
                 continue
             elif res.resname not in protein_resname:
+                self.nonprotein_resid.append(res)
                 continue
 
             self.truncate(res)
             res.truncation_params = self.__class__.__name__
+
+        if self.nonprotein_resid:
+            warnings.warn(f"Skipping residue {self.nonprotein_resid}: the residue name is not a standard AMBER amino acid nomenclature.",UserWarning, stacklevel=2,)
 
         # Checking if all residues are truncated
         protein_resid = [res for res in self.region.residues if res.resname in protein_resname]
@@ -160,9 +165,7 @@ class TruncationScheme(abc.ABC):
         No exception is raised and no action is taken if no Gly/Ala residues
         in the selection would be isolated by truncation.
         """
-        
-        #warnings.filterwarnings("always", category=UserWarning)
-        
+
         if self._gly_ala_check is None:
             return
 
@@ -306,7 +309,7 @@ class TruncationScheme(abc.ABC):
                 if isinstance(self, (AlphaCarbon)):
                     both_neighbors_present = [self.region.get_residue(resid) for resid in to_cap if (resid - 1) in region_resids and (resid + 1) in region_resids]
                     if both_neighbors_present:
-                        raise UserWarning(
+                        raise ValueError(
                             f"extend_gly_ala_backbone=True requested for residue(s) {both_neighbors_present},"
                             "but both neighboring residues are already present in the region. Please remove these"
                             "residue(s) using QMzymeRegion.remove_residue() method or manually extend backbone"
