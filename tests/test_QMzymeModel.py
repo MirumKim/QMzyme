@@ -55,7 +55,7 @@ def test_QMzymeModel():
     assert model.get_region(region_name='test_region') == region
 
     # negative test
-    with pytest.raises(UserWarning):
+    with pytest.raises(ValueError):
         model.get_region('blah')
 
     # check writing of pymol visualization script
