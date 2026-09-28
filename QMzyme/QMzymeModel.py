@@ -93,9 +93,9 @@ class QMzymeModel:
         :type region: :class:`~QMzyme.QMzymeRegion.QMzymeRegion`
         """
         if region.n_atoms == 0:
-            raise UserWarning(f"Region contains no atoms and will not be created.")
+            raise ValueError(f"Region contains no atoms and will not be created.")
         if hasattr(self, region.name):
-            raise UserWarning(f"Region with name {region.name} already exists in QMzymeModel {self.name}."+
+            raise ValueError(f"Region with name {region.name} already exists in QMzymeModel {self.name}."+
                                "Please use a different region name or remove the existing region via remove_region({region.name}).")
         setattr(self, region.name, region)
         self.regions.append(region)
@@ -122,7 +122,7 @@ class QMzymeModel:
         try:
             return getattr(self,region_name)
         except:
-            raise UserWarning(f"Region with name {region_name} does not exist. "+
+            raise ValueError(f"Region with name {region_name} does not exist. "+
                               f"Existing regions are: {self.get_region_names()}")
         
     def has_region(self, region_name):
@@ -166,7 +166,7 @@ class QMzymeModel:
         :rtype: :class:`~QMzyme.QMzymeRegion.QMzymeRegion`
         """
         if name is None:
-            raise UserWarning("Please specify name of the new region.")
+            raise ValueError("Please specify name of the new region.")
 
         # Load the replacement ligand into an MDAnalysis universe
         add_universe = MDAnalysis.Universe(region_file)
