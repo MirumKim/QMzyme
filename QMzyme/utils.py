@@ -32,7 +32,7 @@ def make_selection(selection, model: QMzymeModel, name=None, **kwargs):
     input was an MDA selection command str, or return the input if it was either 
     an MDA AtomGroup or QMzymeRegion.
     """
-    raise UserWarning(f"Invalid selection {selection}.")
+    raise ValueError(f"Invalid selection {selection}.")
     #print('make selection from: ', selection)
     #return selection
 
